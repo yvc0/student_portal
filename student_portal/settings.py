@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-bv+^7rk^=+zmnu^$crc!0=f(+(gmz*s=21=ai+p*wztg0&gca4
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "student-portal-1-lbyb.onrender.com",  # your Render domain
+    "student-portal-06as.onrender.com",  # your Render domain
     "localhost",
     "127.0.0.1",
 ]
@@ -135,3 +135,4 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+
