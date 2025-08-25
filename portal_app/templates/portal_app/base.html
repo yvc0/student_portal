@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Student Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'portal_app/style.css' %}">
+</head>
+<body>
+<header>
+  <a href="{% url 'portal_app:home' %}">
+    <img src="{% static 'portal_app/img.png' %}" alt="Logo" style="height:60px;vertical-align:middle;">
+  </a>
+  <h1 style="display:inline; margin-left:10px;">
+    <a href="{% url 'portal_app:home' %}">Student Management Portal</a>
+  </h1>
+  <nav>
+    {% if user.is_authenticated and user.is_staff %}
+      <a href="{% url 'portal_app:admin_dashboard' %}">Dashboard</a>
+      <a href="{% url 'portal_app:student_list' %}">Students</a>
+      <a href="{% url 'portal_app:marks_list' %}">Marks</a>
+      <a href="{% url 'portal_app:bulk_upload_students' %}">Bulk Students</a>
+      <a href="{% url 'portal_app:bulk_upload_marks' %}">Bulk Marks</a>
+      <a href="{% url 'portal_app:add_attendance' %}">Attendance</a>
+      <a href="{% url 'portal_app:upload_certification' %}">Certifications</a>
+      <a href="{% url 'portal_app:add_workshop' %}">Workshops</a>
+      <a href="{% url 'portal_app:logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'portal_app:login' %}">Admin Login</a>
+    {% endif %}
+  </nav>
+</header>
+
+{% if messages %}
+<div class="messages">
+  {% for message in messages %}
+    <div class="msg {{ message.tags }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+<footer><small>&copy; {{ now|date:"Y" }} Student Portal</small></footer>
+</body>
+</html>

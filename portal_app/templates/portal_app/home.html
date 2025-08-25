@@ -1,0 +1,25 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section>
+  <h2>Search Student</h2>
+  <form action="{% url 'portal_app:search_student' %}" method="get">
+    <input type="text" name="student_id" placeholder="Enter Student ID" required>
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section>
+  <h2>Upcoming Workshops</h2>
+  {% if workshops %}
+    <ul>
+      {% for w in workshops %}
+        <li><strong>{{ w.title }}</strong> — {{ w.date }}<br>{{ w.description }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No workshops scheduled.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<h2>Students</h2>
+
+<form method="get" class="filters">
+  <input type="text" name="q" placeholder="Search ID or Name" value="{{ q }}">
+  <select name="department">
+    <option value="">All Departments</option>
+    {% for d in depts %}
+      <option value="{{ d }}" {% if dept == d %}selected{% endif %}>{{ d }}</option>
+    {% endfor %}
+  </select>
+  <select name="year">
+    <option value="">All Years</option>
+    {% for y in years %}
+      <option value="{{ y }}" {% if year|add:'' == y|add:'' %}selected{% endif %}>Year {{ y }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Apply</button>
+</form>
+
+<table>
+  <tr><th>ID</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th><th>Phone</th></tr>
+  {% for s in page_obj %}
+    <tr>
+      <td><a href="{% url 'portal_app:student_profile' s.student_id %}">{{ s.student_id }}</a></td>
+      <td>{{ s.name }}</td>
+      <td>{{ s.department }}</td>
+      <td>{{ s.year }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.phone }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6">No students found.</td></tr>
+  {% endfor %}
+</table>
+
+<div class="pagi">
+  {% if page_obj.has_previous %}
+    <a href="?page=1&q={{ q }}&department={{ dept }}&year={{ year }}">« First</a>
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ q }}&department={{ dept }}&year={{ year }}">‹ Prev</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ q }}&department={{ dept }}&year={{ year }}">Next ›</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}&q={{ q }}&department={{ dept }}&year={{ year }}">Last »</a>
+  {% endif %}
+</div>
+{% endblock %}

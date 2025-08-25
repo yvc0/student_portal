@@ -1,0 +1,11 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Add Marks{% endblock %}
+{% block content %}
+<h2>Add Marks</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

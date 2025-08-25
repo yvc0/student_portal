@@ -1,0 +1,45 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Marks{% endblock %}
+{% block content %}
+<h2>Marks List</h2>
+<form method="get" class="filters">
+  <input type="text" name="q" placeholder="Search Student ID/Name" value="{{ q }}">
+  <select name="subject">
+    <option value="">All Subjects</option>
+    {% for s in subjects %}
+      <option value="{{ s }}" {% if subject == s %}selected{% endif %}>{{ s }}</option>
+    {% endfor %}
+  </select>
+  <input type="number" name="min_marks" placeholder="Min Marks" value="{{ min_marks }}">
+  <button type="submit">Apply</button>
+</form>
+
+<table>
+  <tr>
+    <th>Student</th><th>Subject</th><th>Marks</th>
+  </tr>
+  {% for mark in marks %}
+  <tr>
+    <td><a href="{% url 'portal_app:student_profile' mark.student.student_id %}">{{ mark.student.student_id }}</a></td>
+    <td>{{ mark.student.name }}</td>
+    <td>{{ mark.subject }}</td>
+    <td>{{ mark.marks }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="4">No marks found.</td></tr>
+  {% endfor %}
+</table>
+
+<div class="pagi">
+  {% if page_obj.has_previous %}
+    <a href="?page=1&q={{ q }}&subject={{ subject }}&min_marks={{ min_marks }}">« First</a>
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ q }}&subject={{ subject }}&min_marks={{ min_marks }}">‹ Prev</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ q }}&subject={{ subject }}&min_marks={{ min_marks }}">Next ›</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}&q={{ q }}&subject={{ subject }}&min_marks={{ min_marks }}">Last »</a>
+  {% endif %}
+</div>
+{% endblock %}

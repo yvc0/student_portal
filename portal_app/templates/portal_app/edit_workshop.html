@@ -1,0 +1,9 @@
+{% extends "portal_app/base.html" %}
+{% block content %}
+  <h2>Edit Workshop</h2>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+    <a href="{% url 'portal_app:admin_dashboard' %}">Cancel</a>
+  </form>
+{% endblock %}

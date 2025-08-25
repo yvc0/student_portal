@@ -1,0 +1,9 @@
+pandas
+django-import-export==3.3.8
+tablib[xls,xlsx]==3.5.0
+openpyxl==3.1.5
+Django
+gunicorn
+psycopg2-binary
+dj-database-url
+whitenoise

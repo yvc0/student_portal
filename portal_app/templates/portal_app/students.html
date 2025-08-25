@@ -1,0 +1,29 @@
+{% extends "portal_app/base.html" %}
+{% block content %}
+<h2>Students</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th><th>Phone</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <td>{{ student.student_id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.department }}</td>
+      <td>{{ student.year }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.phone }}</td>
+      <td>
+        <a href="{% url 'portal_app:edit_student' student.pk %}">Edit</a>
+        <a href="{% url 'portal_app:delete_student' student.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">No students found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

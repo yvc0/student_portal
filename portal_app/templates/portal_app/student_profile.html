@@ -1,0 +1,60 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Student Profile{% endblock %}
+{% block content %}
+{% if admin_mode %}
+  <h2>Add Student</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ student_form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% else %}
+  <h2>Student Profile</h2>
+  <p><strong>ID:</strong> {{ student.student_id }}</p>
+  <p><strong>Name:</strong> {{ student.name }}</p>
+  <p><strong>Department:</strong> {{ student.department }}</p>
+  <p><strong>Year:</strong> {{ student.year }}</p>
+  <p><strong>Email:</strong> {{ student.email }}</p>
+  <p><strong>Phone:</strong> {{ student.phone }}</p>
+
+  {% if user.is_authenticated and user.is_staff %}
+    <p>
+      <a class="download" href="{% url 'portal_app:download_attendance_csv' student.student_id %}" title="Download Attendance CSV">📥 Attendance CSV</a>
+    </p>
+  {% endif %}
+
+  <hr>
+  <h3>Attendance (latest 50)</h3>
+  <table>
+    <tr><th>Date</th><th>Status</th></tr>
+    {% for a in attendance %}
+      <tr><td>{{ a.date }}</td><td>{{ a.status }}</td></tr>
+    {% empty %}
+      <tr><td colspan="2">No records.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h3>Marks</h3>
+  <table>
+    <tr><th>Subject</th><th>Marks</th></tr>
+    {% for m in marks %}
+      <tr><td>{{ m.subject }}</td><td>{{ m.marks }}</td></tr>
+    {% empty %}
+      <tr><td colspan="2">No marks.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h3>Certifications</h3>
+  <ul>
+    {% for c in certifications %}
+      <li>
+        {{ c.program_name }} — {{ c.uploaded_at|date:"Y-m-d H:i" }}
+        <a class="download" href="{% url 'portal_app:download_certification' student.student_id c.program_name %}">📥 Download</a>
+      </li>
+    {% empty %}
+      <li>No certifications.</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

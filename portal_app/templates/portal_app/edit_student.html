@@ -1,0 +1,9 @@
+{% extends "portal_app/base.html" %}
+{% block content %}
+  <h2>Edit Student</h2>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+    <a href="{% url 'portal_app:student_list' %}">Cancel</a>
+  </form>
+{% endblock %}

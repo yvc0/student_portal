@@ -1,0 +1,9 @@
+{% extends "portal_app/base.html" %}
+{% block content %}
+  <h2>Delete Workshop</h2>
+  <p>Are you sure you want to delete "{{ workshop.title }}"?</p>
+  <form method="post">{% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'portal_app:admin_dashboard' %}">Cancel</a>
+  </form>
+{% endblock %}

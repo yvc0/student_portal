@@ -1,0 +1,71 @@
+{% extends 'portal_app/base.html' %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<!-- Year Filter Buttons -->
+<div style="margin-bottom: 20px;">
+  <a href="{% url 'portal_app:admin_dashboard' %}?year=first" class="{% if year == 'first' %}active{% endif %}">First Year</a> |
+  <a href="{% url 'portal_app:admin_dashboard' %}?year=second" class="{% if year == 'second' %}active{% endif %}">Second Year</a>
+</div>
+
+<div class="grid">
+  <div class="card">Students: <strong>{{ stats.students }}</strong></div>
+  <div class="card">Attendance: <strong>{{ stats.attendance }}</strong></div>
+  <div class="card">Marks: <strong>{{ stats.marks }}</strong></div>
+  <div class="card">Certifications: <strong>{{ stats.certifications }}</strong></div>
+  <div class="card">Workshops: <strong>{{ stats.workshops }}</strong></div>
+</div>
+
+<hr>
+<h3>Quick Actions</h3>
+<ul>
+  <li><a href="{% url 'portal_app:add_student' %}">Add Student</a></li>
+  <li><a href="{% url 'portal_app:add_attendance' %}">Add Attendance</a></li>
+  <li><a href="{% url 'portal_app:add_marks' %}">Add Marks</a></li>
+  <li><a href="{% url 'portal_app:upload_certification' %}">Upload Certification</a></li>
+  <li><a href="{% url 'portal_app:add_workshop' %}">Add Workshop</a></li>
+</ul>
+
+<hr>
+<h3>Workshops</h3>
+{% for workshop in workshops %}
+  <div>
+    <strong>{{ workshop.title }}</strong>
+    <a href="{% url 'portal_app:edit_workshop' workshop.pk %}">Edit</a>
+    <a href="{% url 'portal_app:delete_workshop' workshop.pk %}">Delete</a>
+  </div>
+{% empty %}
+  <p>No workshops available.</p>
+{% endfor %}
+
+<hr>
+<h3>Students - {{ year|title }} Year</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Year</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <td>{{ student.student_id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.department }}</td>
+      <td>{{ student.year }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.phone }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">No students found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
